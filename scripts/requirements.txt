@@ -1,0 +1,5 @@
+# Dependencies for scripts/export_tickets_bq.py
+google-cloud-bigquery==3.40.1
+google-auth==2.56.2
+requests==2.33.0
+python-dotenv==1.2.2

@@ -1,0 +1,33 @@
+# Web framework
+fastapi==0.141.1
+uvicorn[standard]==0.34.0
+
+# Config / env
+python-dotenv==1.2.2
+pydantic-settings==2.7.1
+
+# Google Cloud
+google-auth==2.56.2
+google-auth-httplib2==0.2.0
+firebase-admin==6.5.0
+google-cloud-firestore==2.19.0
+google-cloud-aiplatform==1.133.0
+google-cloud-discoveryengine==0.11.14
+google-cloud-storage==3.13.0
+
+# HTTP client (Zendesk API calls)
+requests==2.33.0
+httpx==0.28.1
+
+# BigQuery (analytics)
+google-cloud-bigquery==3.40.1
+
+# Utilities
+cachetools==5.5.0
+numpy==2.2.4
+
+# Document parsers for Google Drive sync
+pypdf==6.14.2
+python-docx==1.1.2
+openpyxl==3.1.5
+python-pptx==1.0.2

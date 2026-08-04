@@ -1,0 +1,12 @@
+# Cloud Build / gcloud run deploy --source uploads this dir; keep upload small
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+*.egg-info/
+.pytest_cache/
+.git/
+*.md
+.DS_Store
+test_e2e.py

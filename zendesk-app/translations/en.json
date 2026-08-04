@@ -1,0 +1,7 @@
+{
+  "app": {
+    "name": "ESIP",
+    "short_description": "Enterprise Support Intelligence Platform",
+    "long_description": "Shows AI summary, similar tickets, and KB article links for the current ticket. Opens full ESIP for deep-dive chat and analysis."
+  }
+}

@@ -1,0 +1,8 @@
+FROM python:3.12-slim
+WORKDIR /app
+COPY backend/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY backend/ backend/
+COPY scripts/reprocess_all_ocr.py scripts/
+ENV PYTHONUNBUFFERED=1
+CMD ["python3", "scripts/reprocess_all_ocr.py"]

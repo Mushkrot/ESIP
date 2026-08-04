@@ -1,0 +1,2 @@
+# Immutable vendor-source bytes are checksum-protected snapshots, not authored text.
+official_guides/** -whitespace

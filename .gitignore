@@ -1,0 +1,57 @@
+# Local secrets and credentials
+.env
+.env.local
+.env.*
+!.env.example
+.env.*.local
+credentials/
+*.json.key
+service-account*.json
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.Python
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# JavaScript
+node_modules/
+dist/
+build/
+frontend/dist/
+zendesk-app/dist/
+.next/
+.nuxt/
+
+# Generated exports and local working data
+export/
+COST/
+KPI/
+scripts/ocr_preview_export/
+scripts/.ocr_reprocess_done.txt
+scripts/.ocr_reprocess_failures.json
+*.html.bak
+
+# Logs and operating-system files
+*.log
+logs/
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editors
+.vscode/settings.json
+.idea/
+*.swp
+*.swo

@@ -1,0 +1,26 @@
+{
+  "name": "ESIP",
+  "author": {
+    "name": "Northstar Support Operations",
+    "email": "morgan.chen@northstar.example.com"
+  },
+  "version": "1.0.0",
+  "frameworkVersion": "2.0",
+  "flexible": true,
+  "defaultLocale": "en",
+  "location": {
+    "support": {
+      "ticket_sidebar": {
+        "url": "assets/index.html"
+      }
+    }
+  },
+  "parameters": [
+    {
+      "name": "ZENDESK_APP_SECRET",
+      "type": "text",
+      "secure": true,
+      "required": true
+    }
+  ]
+}
