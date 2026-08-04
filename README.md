@@ -121,9 +121,10 @@ python -m pytest -q -p no:cacheprovider backend
 - [Product requirements and limits](PRD.md)
 - [Security reporting](SECURITY.md)
 - [Third-party notices](THIRD_PARTY_NOTICES.md)
+- [Source terms](LICENSE)
 
 ## Source terms
 
-This code is available for viewing only. It is not open source. Copying, modification, distribution,
-sublicensing, deployment, or commercial use requires written permission from the copyright holder.
-No additional rights are granted by making the source visible.
+This repository is public for viewing and professional evaluation. It is not open source. No license
+or permission is granted beyond the limited rights required by the GitHub Terms of Service. See
+[LICENSE](LICENSE) for the complete source terms.
