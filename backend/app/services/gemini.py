@@ -1,7 +1,4 @@
-"""Gemini summaries, chat, and OCR through the legacy Vertex AI SDK.
-
-The reference runtime bypasses provider calls. Connected use requires SDK migration;
-see ESIP_OVERVIEW.md for adapter limitations."""
+"""Ticket summaries, chat, and OCR through the shared AI transport."""
 
 import json
 import logging
@@ -10,12 +7,12 @@ from datetime import datetime
 from typing import Any, Iterator, Optional
 from zoneinfo import ZoneInfo
 
-import vertexai
-from google.oauth2 import service_account
-from vertexai.generative_models import (
+from app.services.genai_transport import (
     FunctionDeclaration,
     GenerationConfig,
-    GenerativeModel,
+    GenAITransportError,
+    GenAITransportErrorKind,
+    BoundModel,
     Part,
     Tool,
     ToolConfig,
@@ -57,25 +54,7 @@ _LANGUAGE_NAMES: dict[str, str] = {
     "hi": "Hindi",
 }
 
-# Vertex AI is initialized once at module import.
-# On GCP VMs, credentials file may not exist — fall back to Application Default Credentials.
-try:
-    _creds = service_account.Credentials.from_service_account_file(
-        settings.google_application_credentials,
-        scopes=["https://www.googleapis.com/auth/cloud-platform"],
-    )
-    vertexai.init(
-        project=settings.google_cloud_project_id,
-        location=settings.gemini_location,
-        credentials=_creds,
-    )
-except Exception:
-    vertexai.init(
-        project=settings.google_cloud_project_id,
-        location=settings.gemini_location,
-    )
-
-_model = GenerativeModel(settings.gemini_model)
+_model = BoundModel(settings.gemini_model, surface="gemini")
 
 # ---------------------------------------------------------------------------
 # Prompt size limits
@@ -558,11 +537,8 @@ def decide_tool_calls(
         calls: list[dict] = []
         candidate = response.candidates[0] if response.candidates else None
         if candidate:
-            # finish_reason=15 means MALFORMED_FUNCTION_CALL (e.g. model wrapped call in print())
-            # content may be empty — guard before accessing parts
-            if getattr(candidate, "finish_reason", None) == 15:
-                logger.warning("decide_tool_calls: finish_reason=15 (%s) — skipping tool calls",
-                               getattr(candidate, "finish_message", ""))
+            if getattr(candidate, "finish_reason", None) in (15, "MALFORMED_FUNCTION_CALL"):
+                logger.warning("Skipping malformed model function call")
                 return []
             content = getattr(candidate, "content", None)
             parts = getattr(content, "parts", None) or []
@@ -920,10 +896,11 @@ def ocr_image(image_bytes: bytes, mime_type: str) -> tuple[str | None, str]:
         except (CostGateError, CostDivergenceError):
             raise
         except Exception as exc:
-            if isinstance(exc, TimeoutError):
+            error_kind = exc.kind if isinstance(exc, GenAITransportError) else None
+            if isinstance(exc, TimeoutError) or error_kind is GenAITransportErrorKind.TIMEOUT:
                 return None, f"gemini_error:{exc}"
             err_str = str(exc)
-            is_rate_limit = "429" in err_str or "RESOURCE_EXHAUSTED" in err_str
+            is_rate_limit = error_kind is GenAITransportErrorKind.QUOTA or "429" in err_str or "RESOURCE_EXHAUSTED" in err_str
             if attempt < _OCR_MAX_RETRIES:
                 wait = _OCR_RETRY_BACKOFF * (2 if is_rate_limit else 1)
                 logger.warning("ocr_image attempt %d failed: %s — retrying in %ds", attempt, exc, wait)

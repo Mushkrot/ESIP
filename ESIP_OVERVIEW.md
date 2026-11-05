@@ -107,9 +107,16 @@ known state rather than entering an automatic retry loop.
 
 ## AI controls
 
-Model calls use named route profiles. Each profile defines the model family, output limit, thinking
-control, timeout, retry count, safety settings, and eligible tools. Unknown combinations fail before a
-provider request is sent.
+Generation and embeddings share a provider-neutral transport backed by `google-genai==2.16.0`.
+The adapter creates clients lazily, uses API v1, sets a 60-second request timeout, and disables SDK
+retries and automatic tool execution. It preserves structured responses, function-call arguments,
+opaque thought signatures, safety outcomes, and token usage. Streaming responses close on completion
+or cancellation; application shutdown releases the clients.
+
+Callers supply explicit output and thinking limits. The adapter rejects conflicting model-family
+controls and applies consistent safety settings. Cost checks remain in the application before each
+call or embedding batch. Existing application defaults remain `gemini-2.5-flash` and
+`gemini-embedding-001` with 3072-dimensional vectors.
 
 The model does not receive unrestricted databases or credentials. Tools return bounded evidence, and
 the final answer keeps links and identifiers that let an engineer verify the result. Quality telemetry
@@ -140,6 +147,8 @@ Local development needs none of those services. See [SETUP.md](SETUP.md).
 | Identity and roles | [dependencies](backend/app/dependencies.py) | Server-side role checks and the separate local session path |
 | Chat orchestration | [router](backend/app/routers/universal.py), [policy](backend/app/services/chat_policy.py) | Scope resolution, tool selection, evidence assembly, and streaming |
 | Answer review | [validator](backend/app/services/chat_answer_validator.py), [repair loop](backend/app/services/chat_repair_loop.py) | Failure classification and limits on automatic repair |
+| AI provider access | [transport](backend/app/services/genai_transport.py), [Google adapter](backend/app/services/genai_google.py) | Immutable contracts, request limits, response normalization, and client lifecycle |
+| AI verification | [SDK contracts](backend/test_genai_adapter.py), [consumer tests](backend/test_genai_consumers.py) | Actual SDK serialization against local HTTP responses, without external calls |
 | Failure metadata | [provenance](backend/app/services/error_provenance.py) | Allowlisted categories instead of raw upstream error text |
 | Verification | [reference contracts](backend/test_reference_runtime.py), [CI](.github/workflows/ci.yml) | Credential-free routes, exports, mutations, and client checks |
 
@@ -153,9 +162,9 @@ commentary are in English.
 
 ## Connected-profile limits
 
-- Model calls still use `vertexai.generative_models`. Google has deprecated that module; a connected
-  deployment needs migration to the Google Gen AI SDK and fresh provider checks. See the
-  [migration guide](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/deprecations/genai-vertexai-sdk).
+- AI adapter tests use the real SDK with local HTTP responses. Live model access, answer quality,
+  quotas, and permissions still require deployment-specific checks. Changing model families also
+  requires explicit application profiles and conversation-history validation.
 - The Zendesk client uses configured email/token authentication and example field mappings. OAuth
   renewal, real organization schemas, and account permissions need deployment-specific work.
 - The data model describes one configured organization. This repository does not demonstrate shared

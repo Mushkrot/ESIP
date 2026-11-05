@@ -266,13 +266,13 @@ class OutputCriticShadowContractTest(unittest.TestCase):
         self.assertFalse(result.to_trace_dict()["answer_affecting"])
         self.assertIn("output_critic_error", result.to_trace_dict()["risk_codes"])
 
-    def test_live_call_path_uses_current_vertex_sdk_only(self):
+    def test_live_call_path_uses_shared_transport(self):
         source = inspect.getsource(output_critic_shadow)
 
-        self.assertIn("vertexai", source)
-        self.assertIn("GenerativeModel", source)
+        self.assertNotIn("vertexai", source)
+        self.assertIn("BoundModel", source)
         self.assertIn("GenerationConfig", source)
-        self.assertNotIn("google_genai", source)
+        self.assertNotIn("google.genai", source)
         self.assertNotIn("openai", source)
 
 

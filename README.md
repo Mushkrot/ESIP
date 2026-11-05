@@ -50,8 +50,9 @@ ESIP is split into three applications and a set of provider adapters:
 
 The local `reference` profile supplies deterministic in-process responses at the route boundary.
 The `connected` profile contains provider integrations that need deployment-specific configuration
-and independent validation. Its model adapter still uses the deprecated Vertex AI generative SDK;
-see [connected-profile limits](ESIP_OVERVIEW.md#connected-profile-limits).
+and independent validation. Generation and embeddings use a shared Google Gen AI adapter;
+see [AI controls](ESIP_OVERVIEW.md#ai-controls) and
+[connected-profile limits](ESIP_OVERVIEW.md#connected-profile-limits).
 
 ```mermaid
 flowchart LR
@@ -109,7 +110,9 @@ Detailed commands are in [SETUP.md](SETUP.md). A guided product tour is in
 The baseline was reproduced on November 5, 2026 with Python 3.12. CI runs the backend
 suite and both client builds on Linux for pushes and pull requests.
 
-- Backend: 617 tests pass, plus 51 parameterized subtests.
+- Backend: 684 tests pass, plus 51 parameterized subtests.
+- AI adapter: SDK serialization, streaming cancellation, errors, and application consumers are tested
+  against local HTTP responses without provider credentials or paid calls.
 - Reference runtime: 15 contract tests cover the primary page matrix, exports, local mutations,
   companion authentication, and forbidden network access.
 - Web application: lint and production build pass.

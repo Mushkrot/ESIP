@@ -263,7 +263,7 @@ def _client(location: str) -> genai.Client:
         retry_options=types.HttpRetryOptions(attempts=1),
     )
     return genai.Client(
-        vertexai=True,
+        enterprise=True,
         project=settings.google_cloud_project_id,
         location=location,
         credentials=credentials,

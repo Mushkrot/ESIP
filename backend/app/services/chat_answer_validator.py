@@ -13,9 +13,7 @@ import logging
 import re
 from typing import Any
 
-import vertexai
-from google.oauth2 import service_account
-from vertexai.generative_models import GenerationConfig, GenerativeModel
+from app.services.genai_transport import GenerationConfig, BoundModel
 
 from app.config import settings
 from app.models.chat_quality import (
@@ -41,24 +39,8 @@ logger = logging.getLogger(__name__)
 MAX_VALIDATOR_OUTPUT_TOKENS = 2048
 ESTIMATED_VALIDATOR_OUTPUT_TOKENS = 700
 
-try:
-    _creds = service_account.Credentials.from_service_account_file(
-        settings.google_application_credentials,
-        scopes=["https://www.googleapis.com/auth/cloud-platform"],
-    )
-    vertexai.init(
-        project=settings.google_cloud_project_id,
-        location=settings.gemini_location,
-        credentials=_creds,
-    )
-except Exception:
-    vertexai.init(
-        project=settings.google_cloud_project_id,
-        location=settings.gemini_location,
-    )
-
-_model = GenerativeModel(settings.gemini_model)
-_model_factory = GenerativeModel
+_model = BoundModel(settings.gemini_model, surface="chat_answer_validator")
+_model_factory = BoundModel
 
 _VALIDATOR_PROMPT = """\
 You are the private second-level answer validator for ESIP Universal Chat.

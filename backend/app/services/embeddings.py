@@ -1,20 +1,10 @@
-"""
-Vertex AI text embedding service.
-
-Uses gemini-embedding-001 (3072 dimensions, 8192 token limit) for semantic similarity.
-Stable GA model released May 2025. Requires us-central1 region.
-Task types:
-  RETRIEVAL_DOCUMENT — for ticket content being indexed
-  RETRIEVAL_QUERY    — for user queries at search time
-"""
+"""Batched document and query embeddings with cost checks."""
 
 import logging
 from typing import Callable
 
-import vertexai
-from vertexai.language_models import TextEmbeddingInput, TextEmbeddingModel
+from app.services.genai_transport import EmbeddingRequest, get_transport
 
-from app.config import settings
 from app.services.cost_tracker import (
     CallType,
     calc_cost,
@@ -32,8 +22,6 @@ _EMBEDDING_DIMS = 3072
 _BATCH_SIZE = 5
 _EMBED_MAX_TOKENS_EST = 8192  # model context limit — cap per string for gate projection
 
-_model: TextEmbeddingModel | None = None
-
 
 def _approx_embed_tokens(text: str) -> int:
     """Rough input tokens for one string; capped for gate projection safety."""
@@ -44,19 +32,6 @@ def _projected_embed_batch_cad(texts: list[str]) -> float:
     """CAD cost upper bound for embedding this batch (used by check_cost_gate)."""
     approx_in = sum(_approx_embed_tokens(t) for t in texts)
     return calc_cost(approx_in, 0, is_embedding=True)
-
-
-def _get_model() -> TextEmbeddingModel:
-    global _model
-    if _model is None:
-        # text-embedding-004 requires a regional endpoint — use gemini_location (us-central1).
-        # vertex_ai_location is "global" which is unsupported for embedding models.
-        vertexai.init(
-            project=settings.google_cloud_project_id,
-            location=settings.gemini_location,
-        )
-        _model = TextEmbeddingModel.from_pretrained(_EMBEDDING_MODEL)
-    return _model
 
 
 def embed_texts(
@@ -84,7 +59,6 @@ def embed_texts(
     job_reserved = get_gate_reserve(call_type, job_expected)
     check_cost_gate(call_type, job_reserved, fail_closed=True)
 
-    model = _get_model()
     results: list[list[float]] = []
 
     for batch_start in range(0, len(texts), _BATCH_SIZE):
@@ -106,15 +80,14 @@ def embed_texts(
             reserved_cost_cad=batch_reserved,
         )
 
-        inputs = [
-            TextEmbeddingInput(
-                text=t if t else "",
-                task_type=task_type,
-            )
-            for t in batch
-        ]
-        embeddings = model.get_embeddings(inputs)
-        results.extend(e.values for e in embeddings)
+        response = get_transport().embed(EmbeddingRequest(
+            surface=call_type.value,
+            model=_EMBEDDING_MODEL,
+            texts=batch,
+            task_type=task_type,
+            output_dimensionality=_EMBEDDING_DIMS,
+        ))
+        results.extend(list(vector) for vector in response.vectors)
 
         # Embedding model doesn't expose usage_metadata — approximate from text length.
         batch_chars = sum(len(t) for t in batch)

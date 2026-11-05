@@ -13,9 +13,7 @@ import logging
 from collections.abc import Iterator
 from typing import Optional
 
-import vertexai
-from google.oauth2 import service_account
-from vertexai.generative_models import GenerationConfig, GenerativeModel, ToolConfig
+from app.services.genai_transport import GenerationConfig, BoundModel, ToolConfig
 
 from app.config import settings
 from app.services.cost_tracker import (
@@ -32,23 +30,7 @@ from app.services.cost_tracker import (
 
 logger = logging.getLogger(__name__)
 
-try:
-    _creds = service_account.Credentials.from_service_account_file(
-        settings.google_application_credentials,
-        scopes=["https://www.googleapis.com/auth/cloud-platform"],
-    )
-    vertexai.init(
-        project=settings.google_cloud_project_id,
-        location=settings.gemini_location,
-        credentials=_creds,
-    )
-except Exception:
-    vertexai.init(
-        project=settings.google_cloud_project_id,
-        location=settings.gemini_location,
-    )
-
-_model = GenerativeModel(settings.gemini_model)
+_model = BoundModel(settings.gemini_model, surface="docs_gap")
 
 # ---------------------------------------------------------------------------
 # BQ query — top categories

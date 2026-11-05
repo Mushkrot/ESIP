@@ -21,11 +21,9 @@ from datetime import datetime
 from typing import Any, Callable, Optional
 from zoneinfo import ZoneInfo
 
-import vertexai
-from google.oauth2 import service_account
-from vertexai.generative_models import (
+from app.services.genai_transport import (
     GenerationConfig,
-    GenerativeModel,
+    BoundModel,
     ToolConfig,
 )
 
@@ -50,23 +48,7 @@ TRANSLATE_PREFIX = "__translate__:"
 
 logger = logging.getLogger(__name__)
 
-try:
-    _creds = service_account.Credentials.from_service_account_file(
-        settings.google_application_credentials,
-        scopes=["https://www.googleapis.com/auth/cloud-platform"],
-    )
-    vertexai.init(
-        project=settings.google_cloud_project_id,
-        location=settings.gemini_location,
-        credentials=_creds,
-    )
-except Exception:
-    vertexai.init(
-        project=settings.google_cloud_project_id,
-        location=settings.gemini_location,
-    )
-
-_model = GenerativeModel(settings.gemini_model)
+_model = BoundModel(settings.gemini_model, surface="universal_chat")
 
 # ---------------------------------------------------------------------------
 # Phase 1: JSON mode tool decision

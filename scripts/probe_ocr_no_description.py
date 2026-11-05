@@ -37,7 +37,7 @@ from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parent.parent / ".env", override=True)
 
 import requests
-from vertexai.generative_models import GenerationConfig, Part
+from app.services.genai_transport import GenerationConfig, Part
 
 from app.services.bigquery import _get_client, GCP_PROJECT, BQ_DATASET
 from app.services.cost_tracker import (

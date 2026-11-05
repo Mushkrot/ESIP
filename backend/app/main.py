@@ -7,6 +7,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
+from app.services.genai_transport import close_transport
 from app.routers import (
     auth,
     tickets,
@@ -37,7 +38,10 @@ async def lifespan(_app: FastAPI):
         settings.gemini_model,
         settings.cors_origins_list,
     )
-    yield
+    try:
+        yield
+    finally:
+        close_transport()
 
 
 app = FastAPI(

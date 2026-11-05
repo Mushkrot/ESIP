@@ -10,9 +10,7 @@ import time
 from dataclasses import asdict, dataclass
 from typing import Any, Mapping
 
-import vertexai
-from google.oauth2 import service_account
-from vertexai.generative_models import GenerationConfig, GenerativeModel
+from app.services.genai_transport import GenerationConfig, BoundModel
 
 from app.config import settings
 from app.services import model_routing
@@ -122,7 +120,7 @@ Compact bundle:
 {context_json}
 """
 
-_model: GenerativeModel | None = None
+_model: BoundModel | None = None
 
 
 @dataclass(frozen=True)
@@ -335,26 +333,11 @@ def _parse_response_json(raw_text: str) -> dict[str, Any]:
     return parsed
 
 
-def _get_model(model_id: str) -> GenerativeModel:
+def _get_model(model_id: str) -> BoundModel:
     global _model
     if _model is not None and model_id == settings.gemini_model:
         return _model
-    try:
-        creds = service_account.Credentials.from_service_account_file(
-            settings.google_application_credentials,
-            scopes=["https://www.googleapis.com/auth/cloud-platform"],
-        )
-        vertexai.init(
-            project=settings.google_cloud_project_id,
-            location=settings.gemini_location,
-            credentials=creds,
-        )
-    except Exception:
-        vertexai.init(
-            project=settings.google_cloud_project_id,
-            location=settings.gemini_location,
-        )
-    model = GenerativeModel(model_id)
+    model = BoundModel(model_id, surface="output_critic_shadow")
     if model_id == settings.gemini_model:
         _model = model
     return model

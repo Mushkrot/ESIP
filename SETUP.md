@@ -101,8 +101,9 @@ Check both web clients:
 (cd zendesk-app && npm ci && npm run type-check && npm run build)
 ```
 
-The complete backend suite currently contains 617 passing tests plus 51 parameterized subtests. The
-reference contract subset is in `backend/test_reference_runtime.py`.
+The backend suite includes reference HTTP contracts and AI adapter tests using local HTTP responses.
+Neither requires cloud credentials. See the [verification baseline](README.md#verification-baseline)
+for the current results.
 
 ## Reset local state
 
