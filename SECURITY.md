@@ -22,3 +22,10 @@ internet-facing deployment configuration.
 
 Security fixes apply to the current default branch. Historical snapshots and modified copies are not
 supported.
+
+## Dependency checks
+
+CI runs `npm audit --audit-level=high` for both clients. Moderate and low findings
+remain visible in the audit output. Backend requirements pin direct dependencies;
+transitive Python packages are resolved at install time and need a fresh inventory
+scan before a connected deployment. Local tests do not establish provider security.

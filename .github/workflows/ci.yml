@@ -51,6 +51,7 @@ jobs:
           cache: npm
           cache-dependency-path: ${{ matrix.client }}/package-lock.json
       - run: npm ci
+      - run: npm audit --audit-level=high
       - if: matrix.client == 'frontend'
         run: npm run lint
       - run: npm run type-check

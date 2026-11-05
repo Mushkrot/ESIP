@@ -50,7 +50,7 @@
     "vite": "^7.3.5"
   },
   "overrides": {
-    "@grpc/grpc-js": "1.9.16",
+    "@grpc/grpc-js": "1.14.7",
     "protobufjs": "7.6.5",
     "websocket-driver": "0.7.5"
   }
