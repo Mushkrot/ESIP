@@ -639,7 +639,7 @@ def _ai_dispatcher_source_family_ticket_contract(
     routing_question: str,
     base_contract: semantic_contract_v2.SemanticContractV2,
 ) -> dict | None:
-    """Build a deterministic ticket-search contract from an accepted Phase 6A trace."""
+    """Build a ticket-search contract from an accepted source-family correction."""
     if not isinstance(dispatcher_trace, dict):
         return None
     if dispatcher_trace.get("assistive_task_class") != ai_dispatcher_runtime.ASSISTIVE_CLASS_SOURCE_FAMILY_MISMATCH:
@@ -1466,9 +1466,7 @@ def _is_explicit_global_event_discovery_text(
 ) -> bool:
     """Return True only for explicit global event/fact discovery requests.
 
-    Generic ticket searches often contain words like "find", "was", "recorded",
-    or Russian "проверь". Those are not enough to promote the turn to the
-    event-discovery executor.
+    Generic search verbs alone do not establish an event-discovery intent.
     """
     latest = f"{latest_question}\n{routing_question}".lower()
     combined = f"{latest}\n{prior_event_text}".lower()

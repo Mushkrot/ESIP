@@ -2,6 +2,8 @@
 
 **Enterprise Support Intelligence Platform**
 
+[![CI](https://github.com/Mushkrot/ESIP/actions/workflows/ci.yml/badge.svg)](https://github.com/Mushkrot/ESIP/actions/workflows/ci.yml)
+
 ESIP gives support engineers one place to investigate tickets, search operating knowledge, compare
 past resolutions, ask scoped questions, and measure service performance. The same platform includes
 the controls needed to run those workflows responsibly: source health, cost limits, role management,
@@ -22,6 +24,12 @@ quality telemetry, scheduled jobs, and resumable processing.
 
 The included Northstar workspace contains 12 brands, 60 stores, 12 users, and 240 linked tickets.
 It runs locally with no cloud account and produces the same records on every start.
+Chat, summaries, analytics, and delivery use deterministic examples in this profile. They demonstrate
+the workflow and response contracts, not live model quality or arbitrary question answering. External
+links use example domains.
+
+For a first visit, follow the [ten-minute walkthrough](WALKTHROUGH.md). For a code review, start with
+the [source map and tradeoffs](ESIP_OVERVIEW.md#source-map-and-tradeoffs).
 
 ## Screens
 
@@ -40,8 +48,10 @@ ESIP is split into three applications and a set of provider adapters:
 - BigQuery, Firestore, Vertex AI Search, Zendesk, Google Drive, Gemini, email, and contact-centre adapters
   selected through an explicit runtime profile.
 
-The local `reference` profile replaces external adapters with deterministic in-process services. The
-`connected` profile keeps the same API contracts and enables configured providers.
+The local `reference` profile supplies deterministic in-process responses at the route boundary.
+The `connected` profile contains provider integrations that need deployment-specific configuration
+and independent validation. Its model adapter still uses the deprecated Vertex AI generative SDK;
+see [connected-profile limits](ESIP_OVERVIEW.md#connected-profile-limits).
 
 ```mermaid
 flowchart LR
@@ -72,7 +82,7 @@ Requirements: Python 3.12, Node.js 20.19+ or 22.12+, and npm 10+.
 ```bash
 cp .env.example .env
 
-python3 -m venv .venv
+python3.12 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r backend/requirements.txt
 
@@ -96,11 +106,14 @@ Detailed commands are in [SETUP.md](SETUP.md). A guided product tour is in
 
 ## Verification baseline
 
+The baseline was reproduced on November 5, 2026 with Python 3.12. CI runs the backend
+suite and both client builds on Linux for pushes and pull requests.
+
 - Backend: 617 tests pass, plus 51 parameterized subtests.
 - Reference runtime: 15 contract tests cover the primary page matrix, exports, local mutations,
   companion authentication, and forbidden network access.
 - Web application: lint and production build pass.
-- Zendesk application: type-check and production build pass at a 320 x 720 viewport.
+- Zendesk application: type-check and production build pass; the local preview uses a 320 x 720 frame.
 
 Run the checks:
 

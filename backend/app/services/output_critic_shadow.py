@@ -1,8 +1,6 @@
-"""Shadow-only output critic contract for Universal Chat final answers.
+"""Evaluate answer risks in shadow mode without changing the visible answer.
 
-This module starts with pure helpers only. Runtime model calls are added in the
-next Project Phase 6F workstep, after the regression contract exists.
-"""
+Includes deterministic checks and an optional cost-bounded model review."""
 
 from __future__ import annotations
 

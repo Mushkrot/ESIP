@@ -79,8 +79,7 @@ class Settings(BaseSettings):
     architecture_docs_enabled: bool = True
 
     # --- Service Desk KPI snapshot artifacts ---
-    # Cloud-side daily Excel snapshots are stored in GCS so the job does not depend
-    # on a developer laptop or local Codex automation state.
+    # Full snapshots are stored in GCS so scheduled runs survive local restarts.
     reference_kpi_reports_bucket: str = "esip-reference-data"
     reference_kpi_reports_prefix: str = "reference_kpi_reports"
 
@@ -96,8 +95,7 @@ class Settings(BaseSettings):
     universal_ai_repair_loop_max_validations: int = 3
 
     # --- Universal Chat model routing ---
-    # Empty per-surface overrides preserve the global fallback model. Do not
-    # change gemini_model globally as a shortcut for candidate evaluation.
+    # Empty per-surface overrides use the global fallback model.
     universal_validator_model: str = ""
     universal_review_model: str = ""
     universal_output_critic_shadow_enabled: bool = False

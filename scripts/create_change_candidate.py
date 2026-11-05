@@ -45,7 +45,7 @@ def main() -> None:
         help="Likely user impact.",
     )
     parser.add_argument("--source", default="agent", help="How this candidate was created.")
-    parser.add_argument("--created-by", default="codex", help="Author label for audit.")
+    parser.add_argument("--created-by", default="operator", help="Author label for the audit record.")
     parser.add_argument("--file", action="append", default=[], help="Related changed file. May be repeated.")
     parser.add_argument(
         "--audience",

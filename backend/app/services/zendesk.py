@@ -1,16 +1,7 @@
-"""
-Zendesk REST API client.
+"""Zendesk REST client using configured email/token authentication.
 
-All calls use the backend service account (email/token Basic Auth).
-Engineers' personal Zendesk credentials are never used.
-
-Session cache (in-process dict):
-  - user_cache[user_id]  → {name, email}
-  - org_cache[org_id]    → {name, store_id, brand}
-
-This eliminates N+1 API calls when resolving author names across a ticket's comments.
-Cache lives for the lifetime of the Cloud Run instance (min-instances=1).
-"""
+User, organization, and form lookups are cached for the process lifetime to avoid
+repeated requests while assembling ticket timelines."""
 
 import logging
 import re

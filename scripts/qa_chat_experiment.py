@@ -3021,7 +3021,7 @@ def case_chat_115() -> bool:
     return _check(
         ok,
         "CHAT-115",
-        "Project Phase 5C fact-check uses bounded lookup evidence rather than prior assistant prose",
+        "fact-check uses bounded lookup evidence rather than prior assistant prose",
     )
 
 
@@ -3108,7 +3108,7 @@ def case_chat_116() -> bool:
     return _check(
         ok,
         "CHAT-116",
-        "Project Phase 6A source-family mismatch opens only scoped ticket-example semantic search",
+        "source-family mismatch opens only scoped ticket-example semantic search",
     )
 
 
@@ -3240,7 +3240,7 @@ def case_chat_118() -> bool:
     return _check(
         ok,
         "CHAT-118",
-        "Project Phase 6D visible follow-up date scope preserves prior topic and June/July month windows",
+        "visible follow-up date scope preserves prior topic and June/July month windows",
     )
 
 
@@ -3273,7 +3273,7 @@ def case_chat_119() -> bool:
     return _check(
         ok,
         "CHAT-119",
-        "Project Phase 6B direct ticket context counts as evidence without disabling strong-claim safety",
+        "direct ticket context counts as evidence without disabling strong-claim safety",
     )
 
 
@@ -3315,7 +3315,7 @@ def case_chat_120() -> bool:
     return _check(
         ok,
         "CHAT-120",
-        "Project Phase 6B drive_hint skips non-Drive executors and still allows Drive tabular fallback",
+        "drive_hint skips non-Drive executors and still allows Drive tabular fallback",
     )
 
 
@@ -3373,7 +3373,7 @@ def case_chat_121() -> bool:
     return _check(
         ok,
         "CHAT-121",
-        "Project Phase 6C shadow detects CHAT-118-style follow-up metadata only; visible answer repair remains Project Phase 6D",
+        "shadow detects follow-up metadata only; visible answer repair has a separate gate",
     )
 
 
@@ -3492,7 +3492,7 @@ def case_chat_122() -> bool:
     return _check(
         ok,
         "CHAT-122",
-        "Project Phase 6E ticket resolution lookup answers only targeted current/explicit ticket resolution asks",
+        "ticket resolution lookup answers only targeted current/explicit ticket resolution asks",
     )
 
 
@@ -3563,7 +3563,7 @@ def case_chat_123() -> bool:
     return _check(
         ok,
         "CHAT-123",
-        "Project Phase 6F output critic is private shadow metadata only and strips raw artifacts",
+        "output critic is private shadow metadata only and strips raw artifacts",
     )
 
 
@@ -3676,7 +3676,7 @@ def case_chat_124() -> bool:
     return _check(
         ok,
         "CHAT-124",
-        "Project Phase 6G output critic bounded repair is deterministic, default-off, and fail-closed",
+        "output critic bounded repair is deterministic, default-off, and fail-closed",
     )
 
 
@@ -3739,7 +3739,7 @@ def case_chat_125() -> bool:
     try:
         from app.services import followup_result_set_assist  # noqa: PLC0415
     except Exception as exc:
-        return _check(False, "CHAT-125", f"Project Phase 6H result-set refinement service missing: {exc}")
+        return _check(False, "CHAT-125", f"result-set refinement service missing: {exc}")
 
     result_set = _phase6h_result_set_fixture()
     accepted = _phase6h_payload(
@@ -3805,7 +3805,7 @@ def case_chat_125() -> bool:
     return _check(
         ok,
         "CHAT-125",
-        "Project Phase 6H saved result-set refinement uses structured memory and rejects competing intents",
+        "saved result-set refinement uses structured memory and rejects competing intents",
     )
 
 
@@ -3813,7 +3813,7 @@ def case_chat_126() -> bool:
     try:
         from app.services import followup_result_set_assist  # noqa: PLC0415
     except Exception as exc:
-        return _check(False, "CHAT-126", f"Project Phase 6H omission service missing: {exc}")
+        return _check(False, "CHAT-126", f"omission service missing: {exc}")
 
     result_set = _phase6h_result_set_fixture()
     omitted = _phase6h_payload(
@@ -3847,7 +3847,7 @@ def case_chat_126() -> bool:
     return _check(
         ok,
         "CHAT-126",
-        "Project Phase 6H omitted-ticket follow-up distinguishes displayed and omitted saved IDs",
+        "omitted-ticket follow-up distinguishes displayed and omitted saved IDs",
     )
 
 
@@ -3855,7 +3855,7 @@ def case_chat_127() -> bool:
     try:
         from app.services import followup_result_set_assist  # noqa: PLC0415
     except Exception as exc:
-        return _check(False, "CHAT-127", f"Project Phase 6H ticket-reference service missing: {exc}")
+        return _check(False, "CHAT-127", f"ticket-reference service missing: {exc}")
 
     result_set = _phase6h_result_set_fixture()
     accepted = _phase6h_payload(
@@ -3928,7 +3928,7 @@ def case_chat_127() -> bool:
     return _check(
         ok,
         "CHAT-127",
-        "Project Phase 6H single-ticket follow-up lookup is bounded and rejects ambiguous/competing intents",
+        "single-ticket follow-up lookup is bounded and rejects ambiguous/competing intents",
     )
 
 
@@ -4016,7 +4016,7 @@ def case_chat_128() -> bool:
     return _check(
         ok,
         "CHAT-128",
-        "Project Phase 7 primary mode can promote proven prior-result comparison without changing planner caps",
+        "primary mode can promote proven prior-result comparison without changing planner caps",
     )
 
 
@@ -4078,7 +4078,7 @@ def case_chat_129() -> bool:
     return _check(
         ok,
         "CHAT-129",
-        "Project Phase 7 primary mode can enable proven follow-up date scope through the existing deterministic contract",
+        "primary mode can enable proven follow-up date scope through the existing deterministic contract",
     )
 
 
@@ -4107,7 +4107,7 @@ def case_chat_130() -> bool:
     return _check(
         ok,
         "CHAT-130",
-        "Project Phase 7 primary allowlist excludes unproven 6E/6H/critic and standalone multi-store classes",
+        "primary allowlist excludes unproven 6E/6H/critic and standalone multi-store classes",
     )
 
 
@@ -4171,14 +4171,14 @@ def case_chat_131() -> bool:
     return _check(
         ok,
         "CHAT-131",
-        "Project Phase 7 admin validation allows only safe proven primary config",
+        "admin validation allows only safe proven primary config",
     )
 
 
 def case_chat_132() -> bool:
     suppress = getattr(universal, "_suppress_ai_dispatcher_trace_without_deterministic_answer", None)
     if suppress is None:
-        return _check(False, "CHAT-132", "Project Phase 7 suppression helper is missing")
+        return _check(False, "CHAT-132", "suppression helper is missing")
     trace = {
         "mode": "primary_for_eligible",
         "accepted": True,
@@ -4209,7 +4209,7 @@ def case_chat_132() -> bool:
     return _check(
         ok,
         "CHAT-132",
-        "Project Phase 7 suppresses accepted primary traces without deterministic output and keeps compiler acceptance narrower than rollout eligibility",
+        "suppresses accepted primary traces without deterministic output and keeps compiler acceptance narrower than rollout eligibility",
     )
 
 

@@ -1,4 +1,4 @@
-"""Universal Chat integration tests for Project Phase 6E ticket resolution lookup assist.
+"""Universal Chat integration tests for ticket resolution lookup assist.
 
 Run from project root:
 scripts/backend_python.sh backend/test_universal_ticket_resolution_lookup_assist.py

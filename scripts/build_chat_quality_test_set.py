@@ -3,7 +3,7 @@
 
 The script intentionally does not call Gemini and does not write checkpoints.
 Generated output should stay under export/ unless a human redacts and promotes
-specific cases into CHAT_REGRESSION_MATRIX.md or a QA script.
+specific cases into the chat regression tests or a QA script.
 """
 
 from __future__ import annotations
@@ -126,7 +126,7 @@ def _case_from_row(row: bigquery.table.Row, include_email: bool) -> dict[str, An
         "gcs_payload_uri": row.gcs_payload_uri,
         "promotion_note": (
             "If this case represents a regression, promote it manually into "
-            "CHAT_REGRESSION_MATRIX.md or a targeted QA script with redacted expected criteria."
+            "the chat regression tests or a targeted QA script with redacted expected criteria."
         ),
     }
     if include_email:
@@ -206,7 +206,7 @@ def build_test_set(rows: list[bigquery.table.Row], include_email: bool, per_buck
         "notes": [
             "Read-only log-derived seed set; not a deterministic regression suite by itself.",
             "Do not commit generated output if it contains raw user questions or emails.",
-            "Manually promote stable, redacted cases into CHAT_REGRESSION_MATRIX.md or QA scripts.",
+            "Manually promote stable, redacted cases into the chat regression tests or QA scripts.",
         ],
         "summary": {
             "total_rows_scanned": len(rows),

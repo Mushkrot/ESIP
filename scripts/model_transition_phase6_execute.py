@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
-"""Execute exactly one approved Phase 6 Lane A wave.
+"""Execute one budgeted model-evaluation batch against a frozen evidence corpus.
 
-This is an explicit, non-production experiment adapter. It reads only the frozen
-private Phase 2 corpus, sends candidate-visible evidence to the approved Gemini
-profile, and writes raw observations only below the ignored Supergoal run root.
-It has no production route, tool, database, scheduler or deploy integration.
-"""
+Requires a matching approval receipt. Raw observations are written to the configured
+output directory; this runner does not activate the candidate in the application."""
 
 from __future__ import annotations
 
@@ -154,7 +151,7 @@ def _normalise_receipt(value: str) -> str:
 
 
 def validate_approval_receipt(receipt: str, spec: Any) -> str:
-    """Require the owner approval fields without storing the raw approval in Git."""
+    """Validate required authorization fields and retain only a receipt hash."""
     normalized = _normalise_receipt(receipt)
     required = (
         "approve",

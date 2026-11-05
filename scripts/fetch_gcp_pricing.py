@@ -18,7 +18,7 @@ Usage:
   python3 scripts/fetch_gcp_pricing.py --dry-run   # compare only, no BQ/Firestore writes
   python3 scripts/fetch_gcp_pricing.py --list-skus # print all Vertex AI SKUs (for SKU_MAP maintenance)
 
-See COST_TRACKING_SPEC.md → Pricing Update Strategy.
+Compare catalog prices with DEFAULT_RATES before updating configured rates.
 """
 
 import argparse
@@ -515,7 +515,7 @@ def _ensure_pricing_history_table(client, project: str) -> None:
     table_ref.description = (
         "Daily GCP pricing audit — one row per rate key per day. "
         "Tracks whether GCP Billing Catalog prices match our DEFAULT_RATES. "
-        "See COST_TRACKING_SPEC.md → Pricing Update Strategy."
+        "Compare catalog prices with DEFAULT_RATES before updating configured rates."
     )
     client.create_table(table_ref, exists_ok=True)
 

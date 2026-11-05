@@ -8,7 +8,7 @@ data.
 
 | Entity | Meaning |
 |---|---|
-| Tenant | The operating company whose users, stores, tickets, knowledge, and configuration are isolated in ESIP. |
+| Tenant | The operating organization configured for one ESIP deployment. Shared multi-tenant isolation is not implemented here. |
 | Brand | An operating concept owned by a tenant. One brand has many stores. |
 | Store | A supported location with a stable identifier and one organization profile. |
 | Organization profile | Store metadata used during investigation: brand, systems, contacts, and operational attributes. |

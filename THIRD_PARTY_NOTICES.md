@@ -1,6 +1,6 @@
 # Third-party notices
 
-ESIP depends on third-party packages listed in its Python and npm lockfiles. Those packages remain
+ESIP depends on third-party packages listed in backend/requirements.txt and the npm lockfiles. Those packages remain
 subject to their own licenses; the ESIP project license does not replace or restrict those terms.
 
 ## shadcn/ui

@@ -1,9 +1,6 @@
-"""Guarded assist contract for contextual follow-up date/month scope.
+"""Validate whether a follow-up can reuse the prior topic with a new date scope.
 
-This module is pure and deterministic. It promotes no answer on its own; it
-only decides whether Project Phase 6C shadow metadata is strong enough for a
-later Universal Chat path to preserve prior topic plus month/date scope.
-"""
+Pure helpers return eligibility and scope metadata; the router applies the result."""
 
 from __future__ import annotations
 

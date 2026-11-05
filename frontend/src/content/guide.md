@@ -3,6 +3,10 @@
 ESIP brings ticket investigation, past resolutions, operating procedures, documents, and analytics
 into one support workspace.
 
+In the local reference profile, answers and analytics are deterministic examples. The prompts below
+describe connected workflows; local responses do not execute arbitrary filters or model reasoning.
+Ticket and knowledge links use example domains.
+
 ## Start from the right place
 
 Use the Zendesk sidebar when a ticket is already open. It shows customer risk, a ticket summary,

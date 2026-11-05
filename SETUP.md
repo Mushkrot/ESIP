@@ -9,7 +9,7 @@ Google Cloud project, Zendesk account, Firebase project, API key, or email provi
 - Node.js 20.19+ or 22.12+
 - npm 10
 
-The tested host is macOS. The commands also work in a Unix-like shell on Linux.
+Local verification uses macOS; CI uses Linux, Python 3.12, and Node.js 22.
 
 ## Start the API
 
@@ -17,7 +17,7 @@ From the repository root:
 
 ```bash
 cp .env.example .env
-python3 -m venv .venv
+python3.12 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r backend/requirements.txt
@@ -79,9 +79,11 @@ VITE_RUNTIME_PROFILE=reference
 ```
 
 The frontend setting is already the default; copy `frontend/.env.example` to `frontend/.env.local`
-only when you need to change it. Use `connected` only after configuring the provider adapters named
-in `.env.example`, `frontend/.env.example`, and `backend/cloudrun-env.example.yaml`. Empty provider
-variables are valid in the reference profile.
+only when you need to change it. Empty provider variables are valid in the reference profile.
+
+The connected profile is an integration starting point, not a second quick-start path. Review its
+[SDK, authentication, and deployment limits](ESIP_OVERVIEW.md#connected-profile-limits) before supplying
+provider configuration. The reference profile is for loopback-only local evaluation.
 
 ## Run verification
 

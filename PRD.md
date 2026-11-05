@@ -74,9 +74,10 @@ The reference profile stores mutations in the API process. Users, settings, draf
 when the backend restarts. It simulates provider outcomes and report delivery; it does not exercise
 cloud quotas, provider latency, or third-party permission models.
 
-The connected profile supplies those integrations, but it requires separate cloud resources,
-credentials, indexes, datasets, and helpdesk configuration. The repository does not provision a hosted
-environment automatically.
+The connected profile contains integration code, but it requires separate cloud resources,
+credentials, indexes, datasets, and helpdesk configuration. Its legacy generative SDK also needs
+migration. See [connected-profile limits](ESIP_OVERVIEW.md#connected-profile-limits). The repository
+does not provision or verify a hosted environment automatically.
 
 Generated summaries and answers remain decision support. Engineers must inspect linked evidence before
 using a response for a high-impact change or customer-facing commitment.

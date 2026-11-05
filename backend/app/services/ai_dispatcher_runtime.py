@@ -245,13 +245,13 @@ def dispatcher_config_from_mapping(raw: Mapping[str, Any] | None) -> DispatcherR
 
 
 def followup_date_scope_assist_enabled(config: DispatcherRuntimeConfig | None = None) -> bool:
-    """Return whether the deterministic Phase 6D assistive path may affect answers."""
+    """Return whether the follow-up date-scope path may affect answers."""
     cfg = config or get_dispatcher_config()
     return _answer_affecting_class_enabled(cfg, ASSISTIVE_CLASS_FOLLOWUP_DATE_SCOPE)
 
 
 def ticket_resolution_lookup_assist_enabled(config: DispatcherRuntimeConfig | None = None) -> bool:
-    """Return whether the deterministic Phase 6E assistive path may affect answers."""
+    """Return whether the ticket-resolution lookup path may affect answers."""
     cfg = config or get_dispatcher_config()
     return (
         cfg.mode is ai_dispatcher_planner.DispatcherMode.ASSISTIVE
@@ -260,7 +260,7 @@ def ticket_resolution_lookup_assist_enabled(config: DispatcherRuntimeConfig | No
 
 
 def followup_result_set_refinement_enabled(config: DispatcherRuntimeConfig | None = None) -> bool:
-    """Return whether the deterministic Phase 6H result-set refinement path may affect answers."""
+    """Return whether the saved result-set refinement path may affect answers."""
     cfg = config or get_dispatcher_config()
     return (
         cfg.mode is ai_dispatcher_planner.DispatcherMode.ASSISTIVE
@@ -287,7 +287,7 @@ def followup_ticket_reference_shadow_enabled(config: DispatcherRuntimeConfig | N
 
 
 def followup_ticket_reference_enabled(config: DispatcherRuntimeConfig | None = None) -> bool:
-    """Return whether the deterministic Phase 6H ticket-reference path may affect answers."""
+    """Return whether the saved ticket-reference path may affect answers."""
     cfg = config or get_dispatcher_config()
     return (
         cfg.mode is ai_dispatcher_planner.DispatcherMode.ASSISTIVE
@@ -312,10 +312,9 @@ def run_dispatcher_shadow(
 ) -> DispatcherRuntimeResult:
     """Run the dispatcher planner when eligible.
 
-    Shadow mode is metadata only. Assistive mode remains class-gated: Phase 5A
-    can mark prior result-set comparison as answer-affecting; Phase 5B can mark
-    bounded bulk ticket-ID lookup as answer-affecting only in prior/comparison
-    context. The planner still does not directly execute tools.
+    Shadow mode records metadata only. Assistive mode can affect answers for
+    enabled task classes. Bulk ticket lookup requires prior-result or comparison
+    context. The planner does not execute tools.
     """
     deterministic = ai_dispatcher_planner.DispatcherDeterministicEntities(
         store_ids=tuple(dict.fromkeys(str(item).strip() for item in explicit_store_ids if str(item).strip())),
@@ -1007,7 +1006,7 @@ def source_family_mismatch_candidate(
     routing_question: str,
     semantic_frame: Mapping[str, Any] | None = None,
 ) -> bool:
-    """Return whether a turn is narrow enough for Phase 6A source-family planning."""
+    """Return whether a turn is narrow enough for source-family correction."""
     text = f"{latest_question}\n{routing_question}".casefold()
     if not text.strip():
         return False

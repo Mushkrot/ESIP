@@ -1,15 +1,4 @@
-"""
-ESIP Backend — FastAPI application entry point.
-
-Routes:
-  /health          — health check (unauthenticated, for Cloud Run probes)
-  /api/auth/*      — token validation, user info
-  /api/tickets/*   — Zendesk ticket proxy
-  /api/ai/*        — AI summary + KB suggestions
-  /api/profile/*   — user profile CRUD
-  /api/feedback/*  — beta feedback (submit, list, edit own entries)
-  /api/admin/*     — admin only: trigger BQ sync, view sync status
-"""
+"""ESIP API: authentication, ticket investigation, chat, and administration."""
 
 import logging
 from contextlib import asynccontextmanager
@@ -34,9 +23,6 @@ from app.routers import (
     universal,
 )
 
-# ---------------------------------------------------------------------------
-# Logging
-# ---------------------------------------------------------------------------
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s %(levelname)s %(name)s — %(message)s",
@@ -54,22 +40,15 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-# ---------------------------------------------------------------------------
-# App
-# ---------------------------------------------------------------------------
 app = FastAPI(
     title="ESIP API",
     description="Enterprise Support Intelligence Platform — Backend",
     version="1.0.0",
     lifespan=lifespan,
-    # Disable automatic /docs in production (set via env if needed)
     docs_url="/docs",
     redoc_url="/redoc",
 )
 
-# ---------------------------------------------------------------------------
-# CORS
-# ---------------------------------------------------------------------------
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins_list,
@@ -79,9 +58,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ---------------------------------------------------------------------------
-# Routers
-# ---------------------------------------------------------------------------
 app.include_router(auth.router,     prefix="/api/auth",     tags=["auth"])
 app.include_router(tickets.router,  prefix="/api/tickets",  tags=["tickets"])
 app.include_router(ai.router,       prefix="/api/ai",       tags=["ai"])
@@ -97,9 +73,6 @@ app.include_router(telemetry.router,  prefix="/api/telemetry",  tags=["telemetry
 app.include_router(zaf_auth.router,   prefix="/api/zaf",        tags=["zaf"])
 
 
-# ---------------------------------------------------------------------------
-# Health check — unauthenticated, used by Cloud Run health probes
-# ---------------------------------------------------------------------------
 @app.get("/health", tags=["health"])
 def health():
     return {"status": "ok"}

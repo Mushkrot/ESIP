@@ -1,14 +1,7 @@
-"""
-Gemini AI service via Vertex AI.
+"""Gemini summaries, chat, and OCR through the legacy Vertex AI SDK.
 
-Uses the google-cloud-aiplatform (vertexai) SDK with explicit service account credentials.
-Model: gemini-2.5-flash (update gemini_model in config.py when next GA generation is released).
-
-Entry points:
-  - generate_summary()   → non-streaming, returns structured dict
-  - chat_stream()        → async generator yielding SSE-compatible text chunks
-  - ocr_image()          → Vision OCR: one call; description line first, then transcription
-"""
+The reference runtime bypasses provider calls. Connected use requires SDK migration;
+see ESIP_OVERVIEW.md for adapter limitations."""
 
 import json
 import logging
@@ -85,7 +78,7 @@ except Exception:
 _model = GenerativeModel(settings.gemini_model)
 
 # ---------------------------------------------------------------------------
-# Token budget constants (from PRD section 13.2)
+# Prompt size limits
 # ---------------------------------------------------------------------------
 MAX_TICKET_TOKENS = 60_000
 MAX_KB_TOKENS = 8_000

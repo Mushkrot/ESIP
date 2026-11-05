@@ -1,4 +1,4 @@
-"""Tests for Project Phase 6E ticket resolution lookup assist guards.
+"""Tests for ticket resolution lookup assist guards.
 
 Run from project root:
 scripts/backend_python.sh backend/test_ticket_resolution_lookup_assist.py

@@ -85,9 +85,9 @@ def _review_packet(result: dict[str, Any], wave: dict[str, Any]) -> dict[str, An
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--preflight", action="store_true", help="Offline only; never calls Vertex.")
-    parser.add_argument("--execute", action="store_true", help="Run only the next owner-approved staged wave.")
+    parser.add_argument("--execute", action="store_true", help="Run the next authorized evaluation batch.")
     parser.add_argument("--record-qa", choices=("pass", "fail"), help="Record the review decision for a completed wave.")
-    parser.add_argument("--approval", type=Path, help="Private owner-approved JSON envelope.")
+    parser.add_argument("--approval", type=Path, help="JSON authorization envelope for the selected cases and budget.")
     parser.add_argument("--output", type=Path, help="Ignored private receipt path for --execute.")
     parser.add_argument("--campaign-state", type=Path, help="Ignored private state file that gates later waves.")
     parser.add_argument("--wave-plan", type=Path, default=WAVE_PLAN_PATH, help="Tracked staged-wave plan.")

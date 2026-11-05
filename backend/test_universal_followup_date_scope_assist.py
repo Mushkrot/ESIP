@@ -1,4 +1,4 @@
-"""Universal Chat integration tests for Project Phase 6D follow-up date scope assist.
+"""Universal Chat integration tests for follow-up date scope assist.
 
 Run from project root:
 scripts/backend_python.sh backend/test_universal_followup_date_scope_assist.py

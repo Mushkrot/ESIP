@@ -73,7 +73,7 @@ class TrialPlanningError(ValueError):
 
 
 class TrialAuthorityError(PermissionError):
-    """Raised when paid execution lacks exact owner approval."""
+    """Raised when a paid batch lacks a matching authorization receipt."""
 
 
 def canonical_json(value: Any) -> str:

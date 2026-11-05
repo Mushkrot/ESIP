@@ -1,9 +1,4 @@
-"""
-Models for Universal Chat quality review traces and future review actions.
-
-Phase 1 only captures answer traces. Review/rerun endpoints will build on these
-contracts without changing the base Universal Chat stream behavior.
-"""
+"""Trace, review, and validation contracts for Universal Chat answers."""
 
 from typing import Any, Literal
 

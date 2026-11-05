@@ -1,4 +1,4 @@
-"""Tests for Project Phase 6H saved result-set follow-up contracts."""
+"""Tests for saved result-set follow-up contracts."""
 
 from __future__ import annotations
 

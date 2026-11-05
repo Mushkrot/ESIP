@@ -1,4 +1,4 @@
-"""Tests for Project Phase 6D follow-up date scope assist guards."""
+"""Tests for follow-up date scope assist guards."""
 
 from __future__ import annotations
 

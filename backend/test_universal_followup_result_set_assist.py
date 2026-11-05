@@ -1,4 +1,4 @@
-"""Universal Chat helper tests for Project Phase 6H result-set follow-ups.
+"""Universal Chat helper tests for result-set follow-ups.
 
 Run from project root:
 scripts/backend_python.sh -m pytest backend/test_universal_followup_result_set_assist.py

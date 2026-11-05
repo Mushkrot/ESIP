@@ -3,6 +3,10 @@
 This tour takes about ten minutes. Start the API and web workspace from [SETUP.md](SETUP.md), then
 open `http://127.0.0.1:3000` and select **Open reference workspace**.
 
+The local profile uses fixed example answers and synthetic records. This tour demonstrates navigation,
+ticket context, evidence cards, and administrative workflows. Knowledge and Zendesk links point to
+example domains; no real helpdesk or model is contacted.
+
 ## Investigate a ticket
 
 1. Open **AI Chat**.
@@ -25,25 +29,23 @@ What has already been tried, and what should the next engineer verify?
 The answer stays attached to ticket `950001`. Switch to **General** and ask:
 
 ```text
-Show payment-terminal issues from the last 30 days by brand.
+Which brands had the most network outage tickets this quarter?
 ```
 
-General chat uses a separate history. Opening a ticket on the left does not change the analytics
-question into a ticket question.
+General chat uses a separate history. This example returns a fixed network-issue response with linked
+tickets. It does not execute the requested calendar filter.
 
 ## Inspect analytics evidence
 
-Open **Ticket Analytics** and run a supported question. Review the returned table, date range, brand
-scope, and linked knowledge records. The result includes the query and scope metadata used to produce
-it.
-
-Follow with a narrower request such as:
+Open `http://127.0.0.1:3000/analytics` and ask:
 
 ```text
-Show only Cedar Grill and sort by ticket count.
+Which brands have the most tickets?
 ```
 
-The follow-up operates on the earlier result set rather than widening the query.
+Review the brand counts and source links. The reference route groups the fixture tickets; it does not
+run SQL or interpret arbitrary follow-ups. Select **Cedar Grill** in the brand filter, then click **Re-run with current filters**.
+The new table contains one row with 20 tickets.
 
 ## Review a knowledge gap
 
