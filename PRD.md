@@ -75,9 +75,9 @@ when the backend restarts. It simulates provider outcomes and report delivery; i
 cloud quotas, provider latency, or third-party permission models.
 
 The connected profile contains integration code, but it requires separate cloud resources,
-credentials, indexes, datasets, and helpdesk configuration. Its legacy generative SDK also needs
-migration. See [connected-profile limits](ESIP_OVERVIEW.md#connected-profile-limits). The repository
-does not provision or verify a hosted environment automatically.
+credentials, indexes, datasets, and helpdesk configuration. The repository does not provision or
+verify a hosted environment automatically. See
+[connected-profile limits](ESIP_OVERVIEW.md#connected-profile-limits).
 
 Generated summaries and answers remain decision support. Engineers must inspect linked evidence before
 using a response for a high-impact change or customer-facing commitment.

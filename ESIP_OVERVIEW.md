@@ -157,8 +157,7 @@ connected implementation uses explicit routing rules to make scope decisions ins
 of a large chat router. That router and the admin panel are the main decomposition opportunities;
 changing their boundaries requires integration coverage rather than a cosmetic file split.
 
-Multilingual parsing expressions and regression inputs are intentional. Documentation and developer
-commentary are in English.
+Parsing expressions and regression inputs cover multiple languages.
 
 ## Connected-profile limits
 
